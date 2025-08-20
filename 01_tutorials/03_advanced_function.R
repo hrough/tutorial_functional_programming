@@ -30,8 +30,12 @@ iris_tbl |>
 
 ## https://ggplot2.tidyverse.org/reference/tidyeval.html
 
-## Apply to other datasets
 
+## Apply to other datasets
+airquality |> 
+    calc_numeric_mean(
+        group = Month
+    )   
 
 
 
