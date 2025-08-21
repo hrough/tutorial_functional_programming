@@ -9,8 +9,6 @@
 
 # 1. Load packages --------------------------------------------------------
 
-pak::pak("ranger")
-
 library(tidyverse)
 library(ranger)
 
@@ -26,10 +24,20 @@ objects_list <- list("peach", "pear", "cherry", "strawberry", "blackberry")
 ## 3.1. Using for loop ---------------------------
 
 ## Create an empty list
+messages_list <- list()
 
+for (i in 1:length(objects_list)) {
+   
+   messages_list[[i]] <- str_glue("This is a {objects_list[[i]]}")
+    
+}
 
 ## 3.2. Using functional programming -------------
 
+messages_list <- map(
+    objects_list,
+    \(fruit) str_glue("This fruit is a {fruit}")
+) 
 
 # 4. Model by species -----------------------------------------------------
 
@@ -44,7 +52,21 @@ species_vec <- unique(iris_tbl$Species)
 filtered_lst <- list()
 
 ## Iterate to filter each species
+for (species in 1:length(species_vec)) {
+    
+    ## filter observations
+    iris_filtered <- iris_tbl |> 
+        filter(
+            Species == species_vec[species]
+        )
+    ## calculate linear model
+    iris_filtered_lm <- lm(Petal.Length ~ Sepal.Length, data = iris_filtered)
+    ## get summary
+    filtered_lst[[species]] <- summary(iris_filtered_lm)
+    
+}
 
+filtered_lst
 
 ## 4.2. Using functional programming --------------
 
